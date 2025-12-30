@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity() {
             val now = LocalTime.now()
 
             val hour = now.hour     // 시 (0~23)
-            //val minute = now.minute // 분 (0~59)
-            val minute = now.second // 초 (0~59)
+            val minute = now.minute // 분 (0~59)
+            //val minute = now.second // 초 (0~59)
 
             binding.textClockHour.text = koreanHourString(hour)
             if (minute == 0) {
