@@ -42,8 +42,10 @@ class MainActivity : AppCompatActivity() {
     fun getKoreanMinute(m: Int): String = when (m) {
         0 -> ""
         30 -> "반"
-        else -> "${"  이삼사오"[m / 10]}십${" 일이삼사오육칠팔구"[m % 10]}분".trim()
-    }
+        else -> (if (m < 20) "" else "  이삼사오"[m / 10].toString()) +
+                (if (m >= 10) "십" else "") +
+                " 일이삼사오육칠팔구"[m % 10]
+    }.trim() + if (m > 0 && m != 30) "분" else ""
 
     private val runnable = object : Runnable {
         override fun run() {
