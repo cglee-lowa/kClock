@@ -36,21 +36,13 @@ class MainActivity : AppCompatActivity() {
         handler.post(runnable) // 최초 실행
     }
 
-    private fun koreanHourString(hour: Int): String {
-        val hours = listOf("열두", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉", "열", "열한")
-        return "${hours[hour % 12]}시"
-    }
+    fun getKoreanHour(h: Int): String =
+        "${"열두,한,두,세,네,다섯,여섯,일곱,여덟,아홉,열,열한".split(",")[h % 12]}시"
 
-    private fun koreanMinuteString(minute: Int): String {
-        if (minute !in 1..59) return ""
-        if (minute == 30) return "반"
-        val units = listOf("", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구")
-        val tens = listOf("", "십", "이십", "삼십", "사십", "오십")
-
-        val tenDigit = minute / 10
-        val unitDigit = minute % 10
-
-        return "${tens[tenDigit]}${units[unitDigit]}분"
+    fun getKoreanMinute(m: Int): String = when (m) {
+        0 -> ""
+        30 -> "반"
+        else -> "${"  이삼사오"[m / 10]}십${" 일이삼사오육칠팔구"[m % 10]}분".trim()
     }
 
     private val runnable = object : Runnable {
@@ -61,14 +53,14 @@ class MainActivity : AppCompatActivity() {
             val minute = now.minute // 분 (0~59)
             //val minute = now.second // 초 (0~59)
 
-            binding.textClockHour.text = koreanHourString(hour)
+            binding.textClockHour.text = getKoreanHour(hour)
             if (minute == 0) {
                 binding.textClockMinute.visibility = TextView.GONE
             }
             else {
                 binding.textClockMinute.visibility = TextView.VISIBLE
             }
-            binding.textClockMinute.text = koreanMinuteString(minute)
+            binding.textClockMinute.text = getKoreanMinute(minute)
             handler.postDelayed(this, 1000)
         }
     }
